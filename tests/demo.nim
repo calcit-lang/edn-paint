@@ -51,6 +51,7 @@ proc renderSomething() =
         kwd("type"), genCrEdn("text"),
         kwd("text"), genCrEdn("this is a demo"),
         kwd("align"), genCrEdn("center"),
+        # kwd("font-face"), genCrEdn(), # nil
         kwd("font-face"), genCrEdn("Menlo"),
         kwd("font-weight"), genCrEdn("normal"),
         kwd("position"), numbersVec([40, 40]),

@@ -10,7 +10,14 @@ proc kwd*(x: string): CirruEdnValue =
 
 proc contains*(m: CirruEdnValue, k: CirruEdnValue): bool =
   if m.kind == crEdnMap:
-    m.mapVal.contains(k)
+    if m.mapVal.contains(k):
+      let v = m.mapVal[k]
+      if v == genCrEdn(): # nil
+        false
+      else:
+        true
+    else:
+      false
   else:
     false
 
