@@ -34,7 +34,7 @@ proc renderSomething() =
         kwd("type"), genCrEdnKeyword("arc"),
         kwd("position"), numbersVec([20, 20]),
         kwd("radius"), genCrEdn(40),
-        kwd("stroke-color"), numbersVec([20, 80, 73]),
+        kwd("line-color"), numbersVec([20, 80, 73]),
         kwd("fill-color"), numbersVec([60, 80, 74]),
       ),
       genCrEdnMap(
@@ -45,7 +45,7 @@ proc renderSomething() =
           numbersVec([40, 40]), numbersVec([40, 80]), numbersVec([70, 90]), numbersVec([200, 200])
         ),
         kwd("line-width"), genCrEdn(2),
-        kwd("stroke-color"), numbersVec([100, 80, 75]),
+        kwd("line-color"), numbersVec([100, 80, 75]),
       ),
       genCrEdnMap(
         kwd("type"), genCrEdnKeyword("text"),
@@ -76,7 +76,7 @@ proc renderSomething() =
         kwd("radius"), genCrEdn(6),
         kwd("action"), genCrEdnKeyword("demo"),
         kwd("fill-color"), numbersVec([200, 80, 30]),
-        kwd("stroke-color"), numbersVec([200, 60, 90]),
+        kwd("line-color"), numbersVec([200, 60, 90]),
         kwd("line-width"), genCrEdn(2),
       ),
       genCrEdnMap(
@@ -88,7 +88,7 @@ proc renderSomething() =
         kwd("dx"), genCrEdn(80),
         kwd("dy"), genCrEdn(40),
         kwd("fill-color"), numbersVec([0, 80, 70]),
-        kwd("stroke-color"), numbersVec([200, 60, 90]),
+        kwd("line-color"), numbersVec([200, 60, 90]),
         kwd("line-width"), genCrEdn(2),
       ),
       genCrEdnMap(

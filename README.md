@@ -5,7 +5,7 @@
 ### Usage
 
 ```nim
-requires "https://github.com/calcit-runner/edn-paint.nim#v0.2.3"
+requires "https://github.com/calcit-runner/edn-paint.nim#v0.2.4"
 ```
 
 ```nim
@@ -82,7 +82,7 @@ This library uses HSL/HSLA colors:
   :from-angle 0
   :to-angle $ * 2 PI ; 0 ~ 2*PI
   :negative? false
-  :stroke-color Color
+  :line-color Color
   :line-width 1
   :fill-color Color
 ```
@@ -127,7 +127,7 @@ This library uses HSL/HSLA colors:
     [] 2 2
     [] 3 3
     [] 4 4
-  :stroke-color Color
+  :line-color Color
   :line-width 1
   :line-join :round ; 'round' | 'milter' | 'bevel'
   :fill-color Color
@@ -145,7 +145,7 @@ This library uses HSL/HSLA colors:
   :position $ [] 1 1
   :radius 20
   :fill-color Color
-  :stroke-color Color
+  :line-color Color
   :line-width 1
 
   :rect? true ; enabled rect mode
