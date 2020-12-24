@@ -5,7 +5,7 @@
 ### Usage
 
 ```nim
-requires "https://github.com/calcit-runner/edn-paint.nim#v0.2.2"
+requires "https://github.com/calcit-runner/edn-paint.nim#v0.2.3"
 ```
 
 ```nim
