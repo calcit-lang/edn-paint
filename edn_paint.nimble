@@ -1,6 +1,6 @@
 # Package
 
-version       = "0.2.1"
+version       = "0.2.2"
 author        = "jiyinyiyong"
 description   = "EDN DSL for canvas rendering"
 license       = "MIT"
