@@ -90,7 +90,7 @@ proc takeCanvasEvents*(handleEvent: proc(e: CirruEdnValue):void) =
 
       if mousedownTracked:
         handleEvent(genCrEdnMap(
-          kwd("type"), genCrEdn("mouse-move"),
+          kwd("type"), kwd("mouse-move"),
           kwd("x"), genCrEdn(event.motion.x),
           kwd("y"), genCrEdn(event.motion.y),
           kwd("dx"), genCrEdn(moved.x),
@@ -101,14 +101,14 @@ proc takeCanvasEvents*(handleEvent: proc(e: CirruEdnValue):void) =
         ))
       else:
         handleEvent(genCrEdnMap(
-          kwd("type"), genCrEdn("mouse-move"),
+          kwd("type"), kwd("mouse-move"),
           kwd("x"), genCrEdn(event.motion.x),
           kwd("y"), genCrEdn(event.motion.y),
         ))
     of TextInput:
       # echo "input: ", event.text.text[0]
       handleEvent(genCrEdnMap(
-        kwd("type"), genCrEdn("text-input"),
+        kwd("type"), kwd("text-input"),
         kwd("text"), genCrEdn($event.text.text[0]),
       ))
     of KeyDown:
@@ -119,7 +119,7 @@ proc takeCanvasEvents*(handleEvent: proc(e: CirruEdnValue):void) =
       if targets.len > 0:
         for item in targets:
           handleEvent(genCrEdnMap(
-            kwd("type"), genCrEdn("key-down"),
+            kwd("type"), kwd("key-down"),
             kwd("sym"), genCrEdn(event.key.keysym.sym),
             kwd("repeat"), genCrEdn(event.key.repeat),
             kwd("scancode"), genCrEdn($event.key.keysym.scancode),
@@ -130,7 +130,7 @@ proc takeCanvasEvents*(handleEvent: proc(e: CirruEdnValue):void) =
           ))
       else:
         handleEvent(genCrEdnMap(
-          kwd("type"), genCrEdn("key-down"),
+          kwd("type"), kwd("key-down"),
           kwd("sym"), genCrEdn(event.key.keysym.sym),
           kwd("repeat"), genCrEdn(event.key.repeat),
           kwd("scancode"), genCrEdn($event.key.keysym.scancode),
@@ -142,7 +142,7 @@ proc takeCanvasEvents*(handleEvent: proc(e: CirruEdnValue):void) =
       if targets.len > 0:
         for item in targets:
           handleEvent(genCrEdnMap(
-            kwd("type"), genCrEdn("key-up"),
+            kwd("type"), kwd("key-up"),
             kwd("sym"), genCrEdn(event.key.keysym.sym),
             kwd("repeat"), genCrEdn(event.key.repeat),
             kwd("scancode"), genCrEdn($event.key.keysym.scancode),
@@ -153,7 +153,7 @@ proc takeCanvasEvents*(handleEvent: proc(e: CirruEdnValue):void) =
           ))
       else:
         handleEvent(genCrEdnMap(
-          kwd("type"), genCrEdn("key-up"),
+          kwd("type"), kwd("key-up"),
           kwd("sym"), genCrEdn(event.key.keysym.sym),
           kwd("repeat"), genCrEdn(event.key.repeat),
           kwd("scancode"), genCrEdn($event.key.keysym.scancode),
@@ -161,7 +161,7 @@ proc takeCanvasEvents*(handleEvent: proc(e: CirruEdnValue):void) =
         ))
     of QuitEvent:
       handleEvent(genCrEdnMap(
-        kwd("type"), genCrEdn("quit")
+        kwd("type"), kwd("quit")
       ))
     of MouseButtonDown:
       # echo "mouse down: ", event.button[]
@@ -178,7 +178,7 @@ proc takeCanvasEvents*(handleEvent: proc(e: CirruEdnValue):void) =
         mousedownTrackedData = target.get.data
 
         handleEvent(genCrEdnMap(
-          kwd("type"), genCrEdn("mouse-down"),
+          kwd("type"), kwd("mouse-down"),
           kwd("clicks"), genCrEdn(event.button[].clicks.float),
           kwd("x"), genCrEdn(x),
           kwd("y"), genCrEdn(y),
@@ -188,7 +188,7 @@ proc takeCanvasEvents*(handleEvent: proc(e: CirruEdnValue):void) =
         ))
       else:
         handleEvent(genCrEdnMap(
-          kwd("type"), genCrEdn("mouse-down"),
+          kwd("type"), kwd("mouse-down"),
           kwd("clicks"), genCrEdn(event.button[].clicks.float),
           kwd("x"), genCrEdn(x),
           kwd("y"), genCrEdn(y),
@@ -201,7 +201,7 @@ proc takeCanvasEvents*(handleEvent: proc(e: CirruEdnValue):void) =
       if mousedownTracked:
         let moved = calcMousePositionDelta(x, y)
         handleEvent(genCrEdnMap(
-          kwd("type"), genCrEdn("mouse-up"),
+          kwd("type"), kwd("mouse-up"),
           kwd("clicks"), genCrEdn(event.button[].clicks.float),
           kwd("x"), genCrEdn(event.button[].x),
           kwd("y"), genCrEdn(event.button[].y),
@@ -215,7 +215,7 @@ proc takeCanvasEvents*(handleEvent: proc(e: CirruEdnValue):void) =
 
       else:
         handleEvent(genCrEdnMap(
-          kwd("type"), genCrEdn("mouse-up"),
+          kwd("type"), kwd("mouse-up"),
           kwd("clicks"), genCrEdn(event.button[].clicks.float),
           kwd("x"), genCrEdn(event.button[].x),
           kwd("y"), genCrEdn(event.button[].y),
@@ -233,14 +233,14 @@ proc takeCanvasEvents*(handleEvent: proc(e: CirruEdnValue):void) =
         windowWidth = newSize.x
         windowHeight = newSize.y
         handleEvent(genCrEdnMap(
-          kwd("type"), genCrEdn("window-resized"),
+          kwd("type"), kwd("window-resized"),
           kwd("x"), genCrEdn(newSize.x),
           kwd("y"), genCrEdn(newSize.y),
         ))
       else:
 
         handleEvent(genCrEdnMap(
-          kwd("type"), genCrEdn("window"),
+          kwd("type"), kwd("window"),
           kwd("event"), genCrEdn($event.window[].event),
         ))
 

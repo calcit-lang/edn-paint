@@ -5,7 +5,7 @@
 ### Usage
 
 ```nim
-requires "https://github.com/calcit-runner/edn-paint.nim#v0.2.1"
+requires "https://github.com/calcit-runner/edn-paint.nim#v0.2.4"
 ```
 
 ```nim
@@ -39,237 +39,247 @@ Find example in [`tests/demo.nim`](tests/demo.nim).
 
 ### Specs
 
-EDN described in CoffeeScript.
+EDN described in [Cirru EDN](https://github.com/Cirru/cirru-edn.nim).
 
 This library uses HSL/HSLA colors:
 
-```coffee
-[360,100,100]
+```cirru
+[] 360 100 100
 
-[360,100,100,1]
+[] 360 100 100 1
 ```
 
 - Group
 
-```coffee
-type: 'group'
-position: [1, 1],
-children: []
+```cirru
+{}
+  :type :group
+  :position $ [] 1 1
+  :children $ []
 ```
 
 - Text
 
-```coffee
-type: 'text'
-text: 'DEMO'
-position: [1, 1]
-'font-size': 14
-'font-face': 'Arial'
-'font-weight': 'normal',
-color: Color
-align: "center" # 'left' | 'center' | 'right'
+```cirru
+{}
+  :type :text
+  :text |DEMO
+  :position $ [] 1 1
+  :font-size 14
+  :font-face |Arial
+  :font-weight :normal
+  :color Color
+  :align :center" ; :left | :center | :right
 ```
 
 - Arc
 
-```coffee
-type: 'arc'
-position: [1, 1]
-radius: 1
-'from-angle': 0
-'to-angle': 2*PI # 0 ~ 2*PI
-'negative?': false
-'stroke-color': Color
-'line-width': 1
-'fill-color': Color
+```cirru
+{}
+  :type :arc
+  :position $ [] 1 1
+  :radius 1
+  :from-angle 0
+  :to-angle $ * 2 PI ; 0 ~ 2*PI
+  :negative? false
+  :line-color Color
+  :line-width 1
+  :fill-color Color
 ```
 
 - Operations
 
-```coffee
-type: 'ops'
-position: [1, 1]
-ops: [
-  ['stroke'],
-  ['fill'],
-  ['stroke-preserve'],
-  ['fill-preserve'],
-  ['line-width', 1],
-  ['source-rgb', Color],  # which is actually using HSL colors
-  ['hsl', Color],         # alias for 'source-rgb'
-  ['move-to', [1, 1]],
-  ['line-to', [1, 1]],
-  ['relative-line-to', [1, 1]],
-  ['curve-to', [1, 2], [3, 4], [5, 6]],
-  ['relative-curve-to', [1, 2], [3, 4], [5, 6]],
-  ['arc', [1, 2], 1, [0, 6.28], false],
-  ['new-path'],
-  ['close-path'],
-]
+```cirru
+{}
+  :type :ops
+  :position $ [] 1 1
+  :ops $ []
+    [] :stroke
+    [] :fill
+    [] :stroke-preserve
+    [] :fill-preserve
+    [] :line-width 1
+    [] :source-rgb Color ; which is actually using HSL colors
+    [] :hsl Color        ; alias for 'source-rgb'
+    [] :move-to $ [] 1 1
+    [] :line-to $ [] 1 1
+    [] :relative-line-to $ [] 1 1
+    [] :curve-to $ []
+      [] 1 2
+      [] 3 4
+      [] 5 6
+    [] :relative-curve-to $ []
+      [] 1 2
+      [] 3 4
+      [] 5 6
+    [] :arc ([] 1 2) 1 ([] 0 6.28) false
+    [] :new-path
+    [] :close-path
 ```
 
 - Polyline
 
-```coffee
-type: 'polyline'
-position: [1, 1]
-stops: [
-  [2, 2], [3, 3], [4, 4]
-]
-'stroke-color': Color
-'line-width': 1
-'line-join': 'round' # 'round' | 'milter' | 'bevel'
-'fill-color': Color
-'skip-first?': false
+```cirru
+{}
+  :type :polyline
+  :position $ [] 1 1
+  :stops $ []
+    [] 2 2
+    [] 3 3
+    [] 4 4
+  :line-color Color
+  :line-width 1
+  :line-join :round ; 'round' | 'milter' | 'bevel'
+  :fill-color Color
+  :skip-first? false
 ```
 
 - Touch Area
 
-```coffee
-type: 'touch-area'
-path: ["a", 1] # EDN
-action: Action # EDN
-data: Data # EDN
-position: [1, 1]
-radius: 20
-'fill-color': Color
-'stroke-color': Color
-'line-width': 1
+```cirru
+{}
+  :type :touch-area
+  :path $ [] :a 1 ; EDN
+  :action Action ; EDN
+  :data Data ; EDN
+  :position $ [] 1 1
+  :radius 20
+  :fill-color Color
+  :line-color Color
+  :line-width 1
 
-'rect?': true # enabled rect mode
-dx: 24 # half of rect width
-dy: 8  # half of rect height
+  :rect? true ; enabled rect mode
+  :dx 24 ; half of rect width
+  :dy 8  ; half of rect height
 ```
 
 - Key Listener
 
-```coffee
-type: 'key-listener'
-path: ['a', 2] # EDN
-action: Action # EDN
-data: Data # EDN
-key: 'a'
+```cirru
+{}
+  :type :key-listener
+  :path $ [] :a 2 ; EDN
+  :action Action ; EDN
+  :data Data ; EDN
+  :key |a
 ```
 
 ### Events
 
-```coffee
-type: 'mouse-move'
-x: 1
-y: 1
-path: [] # data, defined in "touch-area"
-action: Action # data, defined in "touch-area"
-data: Data # data, defined in "touch-area"
+```cirru
+{}
+  :type :mouse-move
+  :x 1
+  :y 1
+  :path $ [] :a 1 ; data, defined in "touch-area"
+  :action Action ; data, defined in "touch-area"
+  :data Data ; data, defined in "touch-area"
 ```
 
-```coffee
-type: 'key-down'
-sym: 97
-repeat: false
-scancode: "SDL_SCANCODE_D"
-name: 'a'
+```cirru
+{}
+  :type :key-down
+  :sym 97
+  :repeat false
+  :scancode |SDL_SCANCODE_D
+  :name |a
 ```
 
-```coffee
-type: 'key-up'
-sym: 97
-repeat: false
-scancode: "SDL_SCANCODE_D"
-name: 'a'
+```cirru
+{}
+  :type :key-up
+  :sym 97
+  :repeat false
+  :scancode |SDL_SCANCODE_D
+  :name |a
 ```
 
-```coffee
-type: 'text-input',
-text: 'a'
+```cirru
+{}
+  :type :text-input
+  :text |a
 ```
 
-```coffee
-type: 'quit'
+```cirru
+:type :quit
 ```
 
-```coffee
-type: 'mouse-down'
-clicks: 1
-path: [] # data, defined in "touch-area"
-action: Action # data, defined in "touch-area"
-data: Data # data, defined in "touch-area"
-x: 100
-y: 100
+```cirru
+{}
+  :type :mouse-down
+  :clicks 1
+  :path $ [] ; data, defined in "touch-area"
+  :action Action ; data, defined in "touch-area"
+  :data Data ; data, defined in "touch-area"
+  :x 100
+  :y 100
 ```
 
-```coffee
-type: 'mouse-up'
-clicks: 1
-path: [] # data, defined in "touch-area"
-action: Action # data, defined in "touch-area"
-data: Data # data, defined in "touch-area"
-x: 100
-y: 100
+```cirru
+{}
+  :type :mouse-up
+  :clicks 1
+  :path $ [] :a 1 ; data, defined in "touch-area"
+  :action Action ; data, defined in "touch-area"
+  :data Data ; data, defined in "touch-area"
+  :x 100
+  :y 100
 ```
 
-```coffee
-type: 'window'
-event: "WindowEvent_FocusGained"
+```cirru
+{}
+  :type :window
+  :event |WindowEvent_FocusGained
 ```
 
-```coffee
-type: 'window-resized'
-x: 100
-y: 100
+```cirru
+{}
+  :type :window-resized
+  :x 100
+  :y 100
 ```
 
 Example logs:
 
-```js
-// normal moves
-{"type":"mouse-move","x":430,"y":162}
-{"type":"mouse-move","x":377,"y":120}
+```clojure
+; normal moves
+{:x 491.0, :type :mouse-move, :y 36.0}
+{:x 468.0, :type :mouse-move, :y 42.0}
 
-// a normal click
-{"type":"mouse-down","clicks":1,"x":377,"y":120}
-{"type":"mouse-up","clicks":1,"x":377,"y":120}
-{"type":"mouse-move","x":385,"y":128}
-{"type":"mouse-move","x":388,"y":134}
+; a normal click
+{:x 87.0, :clicks 1.0, :type :mouse-down, :y 163.0}
+{:x 87.0, :clicks 1.0, :type :mouse-up, :y 163.0}
+{:x 86.0, :type :mouse-move, :y 163.0}
 
-// a normal drag
-{"type":"mouse-down","clicks":1,"x":388,"y":134}
-{"type":"mouse-move","x":407,"y":155}
-{"type":"mouse-move","x":408,"y":156}
-{"type":"mouse-move","x":415,"y":165}
-{"type":"mouse-move","x":416,"y":165}
-{"type":"mouse-move","x":416,"y":166}
-{"type":"mouse-up","clicks":0,"x":416,"y":166}
-{"type":"mouse-move","x":406,"y":164}
-
+; a normal drag
+{:x 156.0, :clicks 1.0, :type :mouse-down, :y 46.0}
+{:x 172.0, :type :mouse-move, :y 46.0}
+{:x 189.0, :type :mouse-move, :y 44.0}
+{:x 190.0, :type :mouse-move, :y 44.0}
+{:x 192.0, :type :mouse-move, :y 45.0}
+{:x 192.0, :clicks 0.0, :type :mouse-up, :y 45.0}
 {"type":"mouse-move","x":291,"y":102}
 
-// move from touch-area
-{"type":"mouse-down","clicks":1,"path":["a",1],"action":":demo","data":null,"x":291,"y":102}
-{"type":"mouse-move","x":293,"y":105,"dx":2.0,"dy":3.0,"path":["a",1],"action":":demo","data":null}
-{"type":"mouse-move","x":318,"y":135,"dx":27.0,"dy":33.0,"path":["a",1],"action":":demo","data":null}
-{"type":"mouse-move","x":323,"y":142,"dx":32.0,"dy":40.0,"path":["a",1],"action":":demo","data":null}
-{"type":"mouse-move","x":326,"y":150,"dx":35.0,"dy":48.0,"path":["a",1],"action":":demo","data":null}
-{"type":"mouse-move","x":327,"y":150,"dx":36.0,"dy":48.0,"path":["a",1],"action":":demo","data":null}
-{"type":"mouse-move","x":327,"y":151,"dx":36.0,"dy":49.0,"path":["a",1],"action":":demo","data":null}
-{"type":"mouse-up","clicks":0,"path":["a",1],"action":":demo","data":null,"x":327,"y":151,"dx":36.0,"dy":49.0}
-{"type":"mouse-move","x":311,"y":132}
-{"type":"mouse-move","x":310,"y":132}
-{"type":"mouse-move","x":308,"y":129}
-{"type":"mouse-move","x":307,"y":129}
-{"type":"mouse-move","x":303,"y":120}
+; move from touch-area
+{:x 374.0, :clicks 1.0, :type :mouse-down, :data nil, :action :demo-rect, :path [1.0 2.0], :y 131.0}
+{:x 369.0, :dx -5.0, :type :mouse-move, :data nil, :action :demo-rect, :path [1.0 2.0], :dy -1.0, :y 130.0}
+{:x 360.0, :dx -14.0, :type :mouse-move, :data nil, :action :demo-rect, :path [1.0 2.0], :dy -1.0, :y 130.0}
+{:x 359.0, :dx -15.0, :type :mouse-move, :data nil, :action :demo-rect, :path [1.0 2.0], :dy -1.0, :y 130.0}
+{:x 357.0, :dx -17.0, :type :mouse-move, :data nil, :action :demo-rect, :path [1.0 2.0], :dy 1.0, :y 132.0}
+{:x 357.0, :clicks 0.0, :dx -17.0, :type :mouse-up, :data nil, :action :demo-rect, :path [1.0 2.0], :dy 1.0, :y 132.0}
 
-// click in touch-area
-{"type":"mouse-down","clicks":1,"path":["a",1],"action":":demo","data":null,"x":303,"y":120}
-{"type":"mouse-up","clicks":1,"path":["a",1],"action":":demo","data":null,"x":303,"y":120,"dx":0.0,"dy":0.0}
+; click in touch-area
+{:x 371.0, :clicks 1.0, :type :mouse-down, :data nil, :action :demo-rect, :path [1.0 2.0], :y 182.0}
+{:x 371.0, :clicks 1.0, :dx 0.0, :type :mouse-up, :data nil, :action :demo-rect, :path [1.0 2.0], :dy 0.0, :y 182.0}
 
-// keyboard events
-event: {"type":"key-down","sym":100,"repeat":false,"scancode":"SDL_SCANCODE_D","name":"d"}
-event: {"type":"text-input","text":"d"}
-event: {"type":"key-up","sym":100,"repeat":false,"scancode":"SDL_SCANCODE_D","name":"d"}
-// keydown with actions
-event: {"type":"key-down","sym":97,"repeat":false,"scancode":"SDL_SCANCODE_A","name":"a","path":["a",1],"action":":hit-key","data":"demo data"}
-event: {"type":"text-input","text":"a"}
-event: {"type":"key-up","sym":97,"repeat":false,"scancode":"SDL_SCANCODE_A","name":"a","path":["a",1],"action":":hit-key","data":"demo data"}
+; keyboard events
+{:repeat false, :scancode "SDL_SCANCODE_DOWN", :name "down", :type :key-down, :sym 1073741905.0}
+{:repeat false, :scancode "SDL_SCANCODE_DOWN", :name "down", :type :key-up, :sym 1073741905.0}
+{:repeat false, :scancode "SDL_SCANCODE_D", :name "d", :type :key-down, :sym 100.0}
+{:type :text-input, :text "d"}
+{:repeat false, :scancode "SDL_SCANCODE_D", :name "d", :type :key-up, :sym 100.0}
+{:repeat false, :scancode "SDL_SCANCODE_UP", :name "up", :type :key-down, :sym 1073741906.0}
+{:repeat false, :scancode "SDL_SCANCODE_UP", :name "up", :type :key-up, :sym 1073741906.0}
 ```
 
 ### License

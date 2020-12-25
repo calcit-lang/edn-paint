@@ -30,7 +30,7 @@ proc getFloat*(m: CirruEdnValue, k: string): float =
     if v.kind == crEdnNumber:
       return v.numberVal
     else:
-      showError("Expects value of " & k & "in number")
+      showError("Expects value of " & k & " in number, but got " & $v.kind & " value: " & $m)
   else:
     showError("Expects option in map")
 
@@ -40,7 +40,7 @@ proc getFloat*(m: CirruEdnValue, k: int): float =
     if v.kind == crEdnNumber:
       return v.numberVal
     else:
-      showError("Expects value of " & $k & "in number")
+      showError("Expects value of " & $k & " in number, but got " & $v.kind & " value: " & $m)
   else:
     showError("Expects option in vector")
 
@@ -52,7 +52,7 @@ proc getStr*(m: CirruEdnValue, k: string): string =
     elif v.kind == crEdnKeyword:
       return v.keywordVal
     else:
-      showError("Expects value of " & k & "in string")
+      showError("Expects value of " & k & " in string, but got " & $v.kind & " value: " & $m)
   else:
     showError("Expects option in map")
 
@@ -64,7 +64,7 @@ proc getStr*(m: CirruEdnValue, k: int): string =
     elif v.kind == crEdnKeyword:
       return v.keywordVal
     else:
-      showError("Expects value of " & $k & " in string. but got " & $v.kind & " value: " & $m)
+      showError("Expects value of " & $k & " in string, but got " & $v.kind & " value: " & $m)
   else:
     showError("Expects option in vector")
 
@@ -74,7 +74,7 @@ proc getBool*(m: CirruEdnValue, k: string): bool =
     if v.kind == crEdnBool:
       return v.boolVal
     else:
-      showError("Expects value of " & k & "in bool")
+      showError("Expects value of " & k & " in bool, but got " & $v.kind & " value: " & $m)
   else:
     showError("Expects option in map")
 
@@ -84,7 +84,7 @@ proc getBool*(m: CirruEdnValue, k: int): bool =
     if v.kind == crEdnBool:
       return v.boolVal
     else:
-      showError("Expects value of " & $k & "in bool")
+      showError("Expects value of " & $k & " in bool, but got " & $v.kind & " value: " & $m)
   else:
     showError("Expects option in vector")
 

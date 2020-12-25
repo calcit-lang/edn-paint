@@ -50,10 +50,10 @@ proc renderArc(ctx: ptr Context, tree: CirruEdnValue, base: TreeContext) =
   else:
     ctx.arc(x, y, radius, startAngle, endAngle)
 
-  let hasStroke = tree.contains("stroke-color")
+  let hasStroke = tree.contains("line-color")
   let hasFill = tree.contains("fill-color")
   if hasStroke:
-    let color = readEdnColor(tree[kwd("stroke-color")])
+    let color = readEdnColor(tree[kwd("line-color")])
     ctx.setSourceRgba(color.r, color.g, color.b, color.a)
     let lineWidth = if tree.contains("line-width"): tree.getFloat("line-width") else: 1.0
     ctx.setLineWidth(lineWidth)
@@ -99,9 +99,9 @@ proc renderPolyline(ctx: ptr Context, tree: CirruEdnValue, base: TreeContext) =
     echo "WARNING: stops not defined"
 
   let hasFill = tree.contains("fill-color")
-  let hasStroke = tree.contains("stroke-color")
+  let hasStroke = tree.contains("line-color")
   if hasStroke:
-    let color = readEdnColor(tree["stroke-color"])
+    let color = readEdnColor(tree["line-color"])
     ctx.setSourceRgba(color.r, color.g, color.b, color.a)
     if tree.contains("line-width"):
       ctx.setLineWidth tree.getFloat("line-width")
@@ -120,7 +120,7 @@ proc renderPolyline(ctx: ptr Context, tree: CirruEdnValue, base: TreeContext) =
     else:
       ctx.stroke()
   elif hasFill:
-    let color = readEdnColor(tree["stroke-color"])
+    let color = readEdnColor(tree["line-color"])
     ctx.setSourceRgba(color.r, color.g, color.b, color.a)
     ctx.fill()
 
@@ -249,8 +249,8 @@ proc renderTouchArea(ctx: ptr Context, tree: CirruEdnValue, base: TreeContext) =
 
   ctx.closePath()
 
-  if tree.contains("stroke-color"):
-    let color = readEdnColor(tree["stroke-color"])
+  if tree.contains("line-color"):
+    let color = readEdnColor(tree["line-color"])
     ctx.setSourceRgba(color.r, color.g, color.b, color.a)
   else:
     ctx.setSourceRgba(0.9, 0.9, 0.5, 0.3)

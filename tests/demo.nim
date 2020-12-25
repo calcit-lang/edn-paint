@@ -11,7 +11,7 @@ import edn_paint/edn_util
 # probably just a demo for using
 proc startRenderLoop() =
   renderCanvas(genCrEdnMap(
-    kwd("type"), genCrEdn("arc"),
+    kwd("type"), genCrEdnKeyword("arc"),
     kwd("position"), genCrEdnVector(genCrEdn(20), genCrEdn(20)),
     kwd("radius"), genCrEdn(40),
     kwd("line-color"), genCrEdnVector(genCrEdn(200), genCrEdn(80), genCrEdn(71),genCrEdn( 0.4)),
@@ -27,28 +27,28 @@ proc startRenderLoop() =
 
 proc renderSomething() =
   renderCanvas(genCrEdnMap(
-    kwd("type"), genCrEdn("group"),
+    kwd("type"), genCrEdnKeyword("group"),
     kwd("position"), genCrEdnVector(genCrEdn(100), genCrEdn(30)),
     kwd("children"), genCrEdnVector(
       genCrEdnMap(
-        kwd("type"), genCrEdn("arc"),
+        kwd("type"), genCrEdnKeyword("arc"),
         kwd("position"), numbersVec([20, 20]),
         kwd("radius"), genCrEdn(40),
-        kwd("stroke-color"), numbersVec([20, 80, 73]),
+        kwd("line-color"), numbersVec([20, 80, 73]),
         kwd("fill-color"), numbersVec([60, 80, 74]),
       ),
       genCrEdnMap(
-        kwd("type"), genCrEdn("polyline"),
+        kwd("type"), genCrEdnKeyword("polyline"),
         kwd("position"), numbersVec([10, 10]),
         kwd("skip-first?"), genCrEdn(true),
         kwd("stops"), genCrEdnVector(
           numbersVec([40, 40]), numbersVec([40, 80]), numbersVec([70, 90]), numbersVec([200, 200])
         ),
         kwd("line-width"), genCrEdn(2),
-        kwd("stroke-color"), numbersVec([100, 80, 75]),
+        kwd("line-color"), numbersVec([100, 80, 75]),
       ),
       genCrEdnMap(
-        kwd("type"), genCrEdn("text"),
+        kwd("type"), genCrEdnKeyword("text"),
         kwd("text"), genCrEdn("this is a demo"),
         kwd("align"), genCrEdn("center"),
         # kwd("font-face"), genCrEdn(), # nil
@@ -58,7 +58,7 @@ proc renderSomething() =
         kwd("color"), numbersVec([140, 80, 76]),
       ),
       genCrEdnMap(
-        kwd("type"), genCrEdn("ops"),
+        kwd("type"), genCrEdnKeyword("ops"),
         kwd("position"), numbersVec([0, 0]),
         kwd("ops"), genCrEdnVector(
           genCrEdnVector(kwd("move-to"), numbersVec([100, 100])),
@@ -70,29 +70,29 @@ proc renderSomething() =
         )
       ),
       genCrEdnMap(
-        kwd("type"), genCrEdn("touch-area"),
+        kwd("type"), genCrEdnKeyword("touch-area"),
         kwd("position"), numbersVec([200, 80]),
-        kwd("path"), numbersVec([2, 1]),
+        kwd("path"), genCrEdnVector(genCrEdnKeyword("a"), genCrEdn(1)),
         kwd("radius"), genCrEdn(6),
-        kwd("action"), genCrEdn(":demo"),
+        kwd("action"), genCrEdnKeyword("demo"),
         kwd("fill-color"), numbersVec([200, 80, 30]),
-        kwd("stroke-color"), numbersVec([200, 60, 90]),
+        kwd("line-color"), numbersVec([200, 60, 90]),
         kwd("line-width"), genCrEdn(2),
       ),
       genCrEdnMap(
-        kwd("type"), genCrEdn("touch-area"),
+        kwd("type"), genCrEdnKeyword("touch-area"),
         kwd("position"), numbersVec([300, 120]),
         kwd("rect?"), genCrEdn(true),
-        kwd("path"), numbersVec([1, 2]),
-        kwd("action"), genCrEdn(":demo-rect"),
+        kwd("path"), genCrEdnVector(genCrEdnKeyword("a"), genCrEdn(2)),
+        kwd("action"), genCrEdnKeyword("demo-rect"),
         kwd("dx"), genCrEdn(80),
         kwd("dy"), genCrEdn(40),
         kwd("fill-color"), numbersVec([0, 80, 70]),
-        kwd("stroke-color"), numbersVec([200, 60, 90]),
+        kwd("line-color"), numbersVec([200, 60, 90]),
         kwd("line-width"), genCrEdn(2),
       ),
       genCrEdnMap(
-        kwd("type"), genCrEdn("ops"),
+        kwd("type"), genCrEdnKeyword("ops"),
         kwd("ops"), genCrEdnVector(
           genCrEdnVector(kwd("arc"), numbersVec([100, 100]), genCrEdn(10), numbersVec([0, 6]), genCrEdn(false)),
           genCrEdnVector(kwd("source-rgb"), numbersVec([0, 80, 80])),
@@ -101,10 +101,10 @@ proc renderSomething() =
       ),
       genCrEdn(),
       genCrEdnMap(
-        kwd("type"), genCrEdn("key-listener"),
+        kwd("type"), genCrEdnKeyword("key-listener"),
         kwd("key"), genCrEdn("a"),
-        kwd("path"), numbersVec([1, 1]),
-        kwd("action"), genCrEdn(":hit-key"),
+        kwd("path"), genCrEdnVector(genCrEdnKeyword("a"), genCrEdn(1)),
+        kwd("action"), genCrEdnKeyword("hit-key"),
         kwd("data"), genCrEdn("demo data")
       ),
     )
@@ -120,15 +120,15 @@ proc ap1() =
     takeCanvasEvents(proc(event: CirruEdnValue) =
       if event.kind == crEdnMap:
         let t = event.mapVal[genCrEdnKeyword("type")]
-        if t.kind != crEdnString:
-          raise newException(ValueError, "expects string type")
-        case t.stringVal
+        if t.kind != crEdnKeyword:
+          raise newException(ValueError, "expects event type described in keyword")
+        case t.keywordVal
         of "quit":
           quit 0
         of "window-resized":
           renderSomething()
         else:
-          echo "event: ", event
+          echo event
     )
 
 ap1()
